@@ -134,9 +134,7 @@ def main() -> int:
         return 1
 
     (destino / "specs" / capability).mkdir(parents=True)
-    (destino / "proposal.md").write_text(
-        PROPOSAL.format(capability=capability), encoding="utf-8"
-    )
+    (destino / "proposal.md").write_text(PROPOSAL.format(capability=capability), encoding="utf-8")
     (destino / "specs" / capability / "spec.md").write_text(SPEC, encoding="utf-8")
     (destino / "design.md").write_text(DESIGN, encoding="utf-8")
     (destino / "tasks.md").write_text(

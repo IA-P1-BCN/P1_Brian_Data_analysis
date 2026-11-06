@@ -34,11 +34,7 @@ REQUIRED = [
 
 
 def check_required() -> list[str]:
-    return [
-        f"falta {ruta.relative_to(ROOT)}"
-        for ruta in REQUIRED
-        if not ruta.exists()
-    ]
+    return [f"falta {ruta.relative_to(ROOT)}" for ruta in REQUIRED if not ruta.exists()]
 
 
 def check_skills() -> list[str]:
@@ -71,9 +67,7 @@ def check_skills() -> list[str]:
         if match:
             nombre = match.group(1).strip().strip("\"'")
             if nombre != carpeta.name:
-                errores.append(
-                    f"{carpeta.name}: name='{nombre}' no coincide con la carpeta"
-                )
+                errores.append(f"{carpeta.name}: name='{nombre}' no coincide con la carpeta")
 
     return errores
 
