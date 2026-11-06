@@ -1,0 +1,16 @@
+{
+  "name": "p1-eda-spec-tooling",
+  "private": true,
+  "description": "Herramientas de especificación (OpenSpec). Las dependencias de Python van en requirements.txt.",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "spec:list": "openspec list",
+    "spec:validate": "openspec validate --all",
+    "spec:view": "openspec view"
+  },
+  "devDependencies": {
+    "@fission-ai/openspec": "1.14.1"
+  }
+}

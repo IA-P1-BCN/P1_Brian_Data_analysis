@@ -1,0 +1,19 @@
+[project]
+name = "p1-eda"
+version = "0.1.0"
+description = "EDA del COVID Tracking Project — mini datathon"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = [".venv", "node_modules", "data", ".agents/skills"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
