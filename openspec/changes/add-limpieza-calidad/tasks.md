@@ -2,15 +2,15 @@
 
 ## 1. Limpieza básica (N1)
 
-- [ ] 1.1 `N1-04` (#5) Convertir `date` a `datetime` y validar fechas
+- [x] 1.1 `N1-04` (#5) Convertir `date` a `datetime` y validar fechas
   - Criterio: no quedan fechas inválidas sin contar
   - Validación: `pytest tests/test_clean.py -q`
 
-- [ ] 1.2 `N1-04` (#5) Eliminar duplicados de `(state, date)`
+- [x] 1.2 `N1-04` (#5) Eliminar duplicados de `(state, date)`
   - Criterio: la clave es única y el recuento queda registrado
   - Validación: test de duplicado exacto y con distinta calidad
 
-- [ ] 1.3 `N1-04` (#5) Guardar `data/processed/covid_clean.csv`
+- [x] 1.3 `N1-04` (#5) Guardar `data/processed/covid_clean.csv`
   - Criterio: el CSV se regenera desde `data/raw/` sin pasos manuales
   - Validación: ejecutar `clean.py` dos veces y comparar
 
