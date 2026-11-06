@@ -1,0 +1,52 @@
+schema: spec-driven
+
+context: |
+  Proyecto: EDA del COVID Tracking Project (mini datathon, nivel Avanzado).
+  Stack: Python 3.12+, pandas, numpy, matplotlib, seaborn, plotly, pytest y ruff.
+  Node solo se usa para OpenSpec (@fission-ai/openspec); las dependencias
+  Python viven en requirements.txt.
+
+  Escribir la prosa, los comentarios de negocio y la documentación en español;
+  el código, los nombres de variables y las columnas en inglés.
+
+  Fuentes de verdad, en orden:
+  1. AGENTS.md
+  2. openspec/specs/<capacidad>/spec.md
+  3. openspec/changes/<change>/
+  4. issues y milestones de GitHub
+  5. README.md y docs/contexto_proyecto_eda.md
+
+  Reglas del dominio:
+  - La columna date viene como entero YYYYMMDD y se convierte a datetime.
+  - positiveIncrease, negativeIncrease, totalTestResultsIncrease,
+    deathIncrease y hospitalizedIncrease pueden ser negativos por
+    correcciones de reporting: se documentan, no se borran sin más.
+  - Las columnas con más del 80 % de nulos se excluyen del análisis y se
+    documentan.
+  - La clave es (state, date). Los datos crudos son inmutables.
+  - Los ratios por 100k necesitan la población del estado y un merge validado.
+  - La media móvil de 7 días es la forma correcta de leer tendencias diarias.
+
+  Reglas de trabajo:
+  - La lógica vive en src/eda/; los notebooks solo narran y llaman.
+  - Los notebooks se ejecutan de arriba abajo y se commitean sin outputs.
+  - Una tarea, una rama, una PR. Conventional Commits.
+  - Registrar el uso de IA en docs/ai-log.md.
+  - No inventar datos ni cifras; si falta algo, <<PENDIENTE>>.
+
+rules:
+  proposal:
+    - Referenciar el issue de GitHub y el milestone N1/N2/N3.
+    - Distinguir el comportamiento existente de los requisitos nuevos.
+  specs:
+    - Cada requisito usa SHALL o MUST y al menos un Scenario WHEN/THEN.
+    - Incluir caminos de error, datos inválidos y límites observables.
+    - No mezclar requisitos con decisiones de implementación.
+  design:
+    - Respetar src/eda/ como única fuente de lógica.
+    - Los notebooks solo narran y llaman a src/eda/.
+    - Documentar contratos, flujo de datos, riesgos y validación.
+  tasks:
+    - Cada tarea referencia un issue y un nivel (N1/N2/N3).
+    - Incluir validación (ruff, pytest, notebook) en cada bloque.
+    - Una tarea = un issue = una PR.

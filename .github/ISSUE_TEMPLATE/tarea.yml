@@ -1,0 +1,88 @@
+name: Tarea
+description: Una tarea concreta del backlog EDA (1 issue = 1 entregable = 1 PR)
+title: "[Tarea] "
+labels: ["task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de abrir: comprueba que la tarea no existe y que tiene un nivel
+        y un área. Lee `AGENTS.md` y el change de OpenSpec relacionado.
+
+  - type: dropdown
+    id: nivel
+    attributes:
+      label: Nivel
+      description: Nivel de la rúbrica donde se exige por primera vez.
+      options:
+        - N1 · Esencial
+        - N2 · Medio
+        - N3 · Avanzado
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Setup
+        - Data
+        - Cleaning
+        - Analysis
+        - Visualization
+        - Reporting
+        - Engineering
+        - Release
+    validations:
+      required: true
+
+  - type: input
+    id: change
+    attributes:
+      label: Change de OpenSpec
+      description: Ruta relativa, por ejemplo `openspec/changes/add-limpieza-calidad/`.
+      placeholder: openspec/changes/<change>/
+    validations:
+      required: true
+
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto
+      description: Qué problema resuelve y por qué ahora.
+    validations:
+      required: true
+
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Criterios de aceptación
+      description: Lista verificable. Cada criterio debe poder comprobarse.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidencia esperada
+      description: Commit, PR, figura, tabla o notebook que demuestra el cierre.
+
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Definition of Done
+      options:
+        - label: Notebook afectado ejecuta de arriba abajo
+          required: false
+        - label: ruff check limpio
+          required: false
+        - label: pytest verde
+          required: false
+        - label: openspec validate verde
+          required: false
+        - label: Entrada en docs/ai-log.md si se usó IA
+          required: false

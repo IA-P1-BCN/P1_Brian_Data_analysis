@@ -1,0 +1,54 @@
+name: Bug
+description: Algo no funciona o un resultado no es reproducible
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: nivel
+    attributes:
+      label: Nivel afectado
+      options:
+        - N1 · Esencial
+        - N2 · Medio
+        - N3 · Avanzado
+        - Infraestructura
+    validations:
+      required: true
+
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Qué esperabas
+    validations:
+      required: true
+
+  - type: textarea
+    id: real
+    attributes:
+      label: Qué ocurre
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproducir
+    attributes:
+      label: Cómo reproducirlo
+      description: Comandos, notebook y celda, o enlace a la PR.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: entorno
+    attributes:
+      label: Entorno
+      description: Sistema, versión de Python y commit.
+      placeholder: Linux · Python 3.12 · commit abc1234
+
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidencia
+      description: Traza, captura o salida de `pytest`.

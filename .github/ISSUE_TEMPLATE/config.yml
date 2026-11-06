@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Reglas y flujo de trabajo
+    url: https://github.com/IA-P1-BCN/P1_Exploratory_data_analysis/blob/develop/AGENTS.md
+    about: Lee AGENTS.md antes de abrir una tarea o un bug.
+  - name: Especificaciones OpenSpec
+    url: https://github.com/IA-P1-BCN/P1_Exploratory_data_analysis/tree/develop/openspec
+    about: Consulta el change y la spec antes de proponer un cambio.
