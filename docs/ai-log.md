@@ -171,3 +171,51 @@ interpretar las 56 columnas.
 - [ ] Revisar `src/eda/load.py` y los tests.
 - [ ] Confirmar que el diccionario cubre las columnas usadas.
 - [ ] Ejecutar `python -m pytest tests/test_load.py -q`.
+
+## 2026-11-06 · Limpieza básica del dataset
+
+- **Issue / change:** #5 · `add-limpieza-calidad`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `data-engineer`
+
+### Objetivo
+
+Convertir `date` a `datetime`, eliminar duplicados por `(state, date)` y
+generar `data/processed/covid_clean.csv` sin tocar `data/raw/`.
+
+### Prompts clave
+
+1. "Implementa N1-04: fechas, duplicados, guardado y auditoría básica."
+2. "Los tests no deben modificar el dataframe de entrada ni hacer red."
+
+### Qué produjo la IA
+
+- `src/eda/clean.py` con `parse_date_column()`, `drop_invalid_dates()`,
+  `remove_duplicates()`, `clean_covid_data()`, `save_processed_data()`,
+  `audit_cleaning()` y `build_clean_dataset()`.
+- `tests/test_clean.py` con 15 tests, incluidos fecha imposible, duplicado
+  con y sin `dateModified`, no mutación y pipeline completo.
+- `data/processed/covid_clean.csv` regenerado: 20 780 filas, 0 fechas
+  inválidas y 0 duplicados en la copia descargada.
+
+### Errores y alucinaciones
+
+- `build_clean_dataset()` validaba el esquema con el mínimo de 1000 filas y
+  fallaba con el fixture de 12 filas. Se añadió `validate=False` para tests.
+- `parse_date_column()` habría fallado con `date` ya convertida a
+  `datetime`; se añadió el caso idempotente y su test.
+
+### Decisiones
+
+- **Aceptadas:** conservar el registro con `dateModified` más reciente;
+  devolver `(df, auditoría)` en `build_clean_dataset()`; mantener el orden
+  original de las filas.
+- **Rechazadas:** eliminar duplicados por `dataQualityGrade` (columna vacía
+  al 100 %); imputar fechas inválidas (no hay ninguna).
+
+### Verificación humana
+
+- [ ] Revisar que `data/raw/` no cambió.
+- [ ] Confirmar que la auditoría coincide con el CSV procesado.
+- [ ] Ejecutar `python -m pytest tests/test_clean.py -q`.
