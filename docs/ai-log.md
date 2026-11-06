@@ -118,3 +118,56 @@ aceptación, y reflejarlo en un GitHub Project con campos y vistas.
 - [ ] Revisar los 26 issues y sus criterios de aceptación.
 - [ ] Confirmar el orden de `Day` y la ruta crítica del Project.
 - [ ] Ajustar en la UI la agrupación del tablero "Backlog por nivel".
+
+## 2026-11-06 · Ingesta del dataset y diccionario de datos
+
+- **Issue / change:** #3 · `add-ingesta-datos`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `data-engineer`
+
+### Objetivo
+
+Implementar una carga reproducible del COVID Tracking Project, con caché
+local, validación de esquema y un diccionario de datos que permita
+interpretar las 56 columnas.
+
+### Prompts clave
+
+1. "Implementa N1-02: load.py con descarga, caché y validación, tests sin red
+   y docs/data_dictionary.md."
+2. "Comprueba el dataset real y documenta nulos, negativos y limitaciones."
+
+### Qué produjo la IA
+
+- `src/eda/load.py` con `download_covid_data()`, `validate_schema()` y
+  `load_covid_data()`.
+- Descarga atómica: escribe un `.part` y solo lo renombra si termina bien.
+- `tests/fixtures/covid_sample.csv` y 8 tests en `tests/test_load.py`.
+- `docs/data_dictionary.md` con las 56 columnas, los porcentajes de nulos
+  reales y las reglas de interpretación.
+
+### Errores y alucinaciones
+
+- La primera URL probada (`covidtracking.com/api/v1/states/daily.csv`)
+  devuelve 404. Se cambió al CSV del repositorio archivado
+  `COVID19Tracking/covid-tracking-data` (200, 5,5 MB).
+- Se asumió que `dataQualityGrade` permitiría resolver duplicados por
+  calidad; en esta copia está vacía al 100 %. Se documentó y se descartó ese
+  criterio.
+- `ruff format` intentó formatear el bloque de código del Markdown del
+  diccionario; se aceptó el cambio porque no altera el contenido.
+
+### Decisiones
+
+- **Aceptadas:** usar `urllib` de la biblioteca estándar (sin dependencia
+  nueva); validar tamaño y columnas antes de devolver el `DataFrame`; leer
+  `state` y `fips` como texto.
+- **Rechazadas:** depender de la API original (caída); añadir `requests` solo
+  para una descarga.
+
+### Verificación humana
+
+- [ ] Revisar `src/eda/load.py` y los tests.
+- [ ] Confirmar que el diccionario cubre las columnas usadas.
+- [ ] Ejecutar `python -m pytest tests/test_load.py -q`.
