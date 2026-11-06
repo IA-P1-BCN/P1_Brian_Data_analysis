@@ -64,3 +64,57 @@ con permisos, skills propias y OpenSpec como motor de especificaciones.
 - [ ] Ejecutar `python scripts/validate_agent_infra.py`.
 - [ ] Ejecutar `npm run spec:validate`.
 - [ ] Confirmar que los 7 changes corresponden a las 7 épicas.
+
+## 2026-11-06 · Backlog de 26 issues y GitHub Project
+
+- **Issue / change:** #2 · `add-entorno-reproducible` (y backlog completo)
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** agente principal (backlog + orquestación)
+
+### Objetivo
+
+Convertir los 7 changes de OpenSpec en un backlog ejecutable de 26 issues
+(N1 8, N2 10, N3 8), cada uno con nivel, área, dependencias y criterios de
+aceptación, y reflejarlo en un GitHub Project con campos y vistas.
+
+### Prompts clave
+
+1. "Sigue con el siguiente paso del plan: issues y Project."
+2. "Un issue = un entregable = un nivel = una PR."
+3. "Los niveles son etiquetas y milestones, no changes."
+
+### Qué produjo la IA
+
+- 26 issues (#2–#27) con cuerpo homogéneo: contexto, criterios, change,
+  dependencias, evidencia y DoD.
+- Etiquetas `task`, `nivel:*` y `area:*`, y milestone correcto en cada issue.
+- Números de issue enlazados en los 7 `tasks.md`.
+- Project #55 `EDA · P1 Exploratory Data Analysis` con campos `Level`,
+  `Workstream`, `Day`, `Priority` y `Estimate`, y 3 vistas.
+- Corrección del job `Notebooks`: `actions/setup-python` con `cache: pip`
+  fallaba en el post-job cuando no había dependencias que cachear.
+
+### Errores y alucinaciones
+
+- El primer script de issues pasó el número de milestone (`1`) en vez del
+  título (`N1 · Esencial`); `gh` lo rechazó con
+  `could not add to milestone '1'`. Se corrigió antes de crear nada.
+- Se intentó crear vistas del Project con `filter` en
+  `createProjectV2View`; el campo no existe en esa mutación. Se crearon sin
+  filtro y se aplicó con `updateProjectV2View`.
+- No se pudo fijar la agrupación del tablero por `Level` por API: la
+  configuración solo expone `visibleFieldIds`. Queda pendiente en la UI.
+
+### Decisiones
+
+- **Aceptadas:** 26 issues con ID `N?-??`; orden por dependencias y no por
+  nivel; `Day` con 6 días + buffer; `P0` solo para la ruta crítica.
+- **Rechazadas:** un issue por change; issues padre por épica (se
+  representan con `Workstream` y `openspec/changes/`).
+
+### Verificación humana
+
+- [ ] Revisar los 26 issues y sus criterios de aceptación.
+- [ ] Confirmar el orden de `Day` y la ruta crítica del Project.
+- [ ] Ajustar en la UI la agrupación del tablero "Backlog por nivel".
