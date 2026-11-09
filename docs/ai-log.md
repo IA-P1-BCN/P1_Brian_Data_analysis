@@ -606,3 +606,43 @@ exclusión de columnas con más del 80 % de nulos y outliers por IQR.
 
 - [ ] Revisar la tabla de decisiones y los límites IQR.
 - [ ] Confirmar que las 15 columnas excluidas coinciden con el diccionario.
+
+## 2026-11-10 · Features base y ratios por 100k
+
+- **Issue / change:** #14 · `add-features-temporales`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `data-engineer`
+
+### Objetivo
+
+Implementar `features.py` con positividad, tasa de mortalidad, media móvil
+de 7 días, merge de población validado y ratios por 100k.
+
+### Prompts clave
+
+1. "Implementa features.py con add_base_features, merge_population y
+   add_per_capita, más tests sin red."
+2. "El merge debe fallar si falta un estado o cambia el número de filas."
+
+### Qué produjo la IA
+
+- `src/eda/features.py` con 8 funciones.
+- `tests/test_features.py` con 12 tests.
+- `add_all_features()` omite los ratios si no hay población disponible.
+
+### Errores y alucinaciones
+
+- Ninguno significativo. Los tests de merge usan un fixture temporal de
+  población.
+
+### Decisiones
+
+- **Aceptadas:** media móvil con ventana completa (primeros 6 días NaN);
+  `add_all_features` degrada con gracia sin población.
+- **Rechazadas:** calcular ratios sin validar el merge.
+
+### Verificación humana
+
+- [ ] Revisar `features.py` y los tests.
+- [ ] Confirmar que los ratios no son `inf`.
