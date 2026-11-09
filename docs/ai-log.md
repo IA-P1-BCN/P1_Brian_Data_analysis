@@ -688,3 +688,44 @@ por estado en escala lineal y logarítmica.
 
 - [ ] Revisar las figuras y las lecturas.
 - [ ] Confirmar que la escala log no oculta diferencias absolutas.
+
+## 2026-11-10 · Informe ejecutivo y README
+
+- **Issue / change:** #18, #19 · `add-informe-ejecutivo`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `report-writer`
+
+### Objetivo
+
+Redactar `reports/informe.md` (1–2 páginas, audiencia CEO) y actualizar el
+`README.md` con instalación, ejecución, estructura y resultados.
+
+### Prompts clave
+
+1. "Redacta el informe ejecutivo con 4 hallazgos, recomendaciones y
+   limitaciones, cifras trazables."
+2. "Actualiza el README con instalación, ejecución, estructura y resultados."
+
+### Qué produjo la IA
+
+- `reports/informe.md` con resumen ejecutivo, 4 hallazgos, 3 recomendaciones
+  y limitaciones.
+- `README.md` con datos, instalación, ejecución, estructura y resultados.
+
+### Errores y alucinaciones
+
+- La hipótesis inicial (mayor positividad → mayor mortalidad) no se sostiene:
+  la correlación es -0,05. Se reportó como hallazgo negativo en lugar de
+  ocultarlo.
+
+### Decisiones
+
+- **Aceptadas:** cifras verificadas con un script de análisis; 1 figura por
+  hallazgo en el notebook, no en el informe.
+- **Rechazadas:** incluir gráficos en el informe (solo 1–2 páginas).
+
+### Verificación humana
+
+- [ ] Revisar el informe y las cifras.
+- [ ] Confirmar que el README permite reproducir el proyecto.
