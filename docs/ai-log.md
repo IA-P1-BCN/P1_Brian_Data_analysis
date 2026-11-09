@@ -447,3 +447,40 @@ análisis.
 
 - [ ] Revisar que las hipótesis son defendibles y no sesgadas.
 - [ ] Confirmar que las 3 preguntas cubren el nivel Esencial.
+
+## 2026-11-09 · Análisis univariado (3 variables)
+
+- **Issue / change:** #7 · `add-analisis-exploratorio`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `eda-analyst`
+
+### Objetivo
+
+Añadir 3 análisis univariados con gráficos y lectura a `02_eda.ipynb`.
+
+### Prompts clave
+
+1. "Inserta univariado de casos, muertes y casos diarios con hist/boxplot."
+2. "Cada gráfico con título, ejes, unidades y fuente, y lectura en español."
+
+### Qué produjo la IA
+
+- 3 subsecciones (6.1, 6.2, 6.3) con histograma, boxplot y top 10.
+- 3 figuras en `reports/figures/`.
+- Verificación con `nbconvert --execute` (292 KB).
+
+### Errores y alucinaciones
+
+- Ninguno. Se reutilizó el patrón de inserción por celda placeholder.
+
+### Decisiones
+
+- **Aceptadas:** counts absolutos con aviso de no comparabilidad; se deja
+  la normalización para N3.
+- **Rechazadas:** incluir positividad aquí (va en N2-05).
+
+### Verificación humana
+
+- [ ] Revisar las figuras y las lecturas.
+- [ ] Confirmar que las cifras del top 10 son coherentes.

@@ -12,7 +12,7 @@
 
 ## 2. Análisis (N1)
 
-- [ ] 2.1 `N1-06` (#7) Añadir 3 análisis univariados con gráfico e interpretación
+- [x] 2.1 `N1-06` (#7) Añadir 3 análisis univariados con gráfico e interpretación
   - Criterio: distribución, centro, dispersión y lectura
   - Validación: figuras en `reports/figures/`
 
