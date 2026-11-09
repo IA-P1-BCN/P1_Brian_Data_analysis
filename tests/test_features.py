@@ -64,7 +64,11 @@ def test_add_daily_ma7_groups_by_state() -> None:
 
     assert "positiveIncrease_ma3" in result.columns
     # los 2 primeros días de cada estado son NaN con ventana completa de 3
-    assert result.groupby("state")["positiveIncrease_ma3"].apply(lambda s: s.iloc[:2].isna().all()).all()
+    assert (
+        result.groupby("state")["positiveIncrease_ma3"]
+        .apply(lambda s: s.iloc[:2].isna().all())
+        .all()
+    )
 
 
 def test_add_base_features_adds_three_columns() -> None:
