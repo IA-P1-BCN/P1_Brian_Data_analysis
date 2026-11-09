@@ -11,7 +11,10 @@ from src.eda.clean import (
     audit_cleaning,
     build_clean_dataset,
     clean_covid_data,
+    drop_high_null_columns,
     drop_invalid_dates,
+    iqr_bounds,
+    mark_outliers,
     parse_date_column,
     remove_duplicates,
     save_processed_data,
@@ -163,3 +166,40 @@ def test_fixture_has_expected_states(estado: str) -> None:
     df = pd.read_csv(FIXTURE)
 
     assert estado in set(df["state"])
+
+
+
+def test_drop_high_null_columns_excludes_strictly_above() -> None:
+    df = pd.DataFrame(
+        {
+            "a": [1, 2, 3, 4, 5],
+            "b": [1.0, None, None, None, None],  # 80 % exacto -> no se excluye
+            "c": [None, None, None, None, None],  # 100 % -> se excluye
+        }
+    )
+
+    result, excluded = drop_high_null_columns(df, threshold=0.80)
+
+    assert excluded == ["c"]
+    assert "c" not in result.columns
+    assert "b" in result.columns
+
+
+def test_iqr_bounds_basic() -> None:
+    series = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100])
+
+    lower, upper = iqr_bounds(series, factor=1.5)
+
+    assert lower < upper
+    assert upper < 100
+
+
+def test_mark_outliers_adds_boolean_column() -> None:
+    df = pd.DataFrame({"x": [1, 2, 3, 4, 5, 100]})
+
+    result = mark_outliers(df, columns=["x"])
+
+    assert "is_outlier_x" in result.columns
+    assert result["is_outlier_x"].dtype == bool
+    assert bool(result.loc[result["x"] == 100, "is_outlier_x"].iloc[0]) is True
+    assert bool(result.loc[result["x"] == 3, "is_outlier_x"].iloc[0]) is False

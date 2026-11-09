@@ -16,16 +16,16 @@
 
 ## 2. Decisiones justificadas (N2)
 
-- [ ] 2.1 `N2-01` (#10) Documentar la tabla antes/después
+- [x] 2.1 `N2-01` (#10) Documentar la tabla antes/después
   - Criterio: filas, columnas, nulos y duplicados antes y después
   - Validación: revisión en el notebook
 
-- [ ] 2.2 `N2-02` (#11) Excluir columnas con más del 80 % de nulos
+- [x] 2.2 `N2-02` (#11) Excluir columnas con más del 80 % de nulos
   - Criterio: la lista está documentada y el dataframe de análisis no las
     contiene
   - Validación: test con una columna al 85 % de nulos
 
-- [ ] 2.3 `N2-03` (#12) Analizar outliers con IQR y boxplots
+- [x] 2.3 `N2-03` (#12) Analizar outliers con IQR y boxplots
   - Criterio: límites de Tukey y recuento por variable
   - Validación: figuras en `reports/figures/`
 

@@ -65,6 +65,39 @@ def clean_covid_data(df: pd.DataFrame) -> pd.DataFrame:
     return cleaned
 
 
+def drop_high_null_columns(
+    df: pd.DataFrame, threshold: float = 0.80
+) -> tuple[pd.DataFrame, list[str]]:
+    """Excluye las columnas con más del umbral de nulos.
+
+    Devuelve ``(dataframe sin esas columnas, lista de columnas excluidas)``.
+    """
+    null_ratio = df.isna().mean()
+    excluded = sorted(null_ratio[null_ratio > threshold].index.tolist())
+    return df.drop(columns=excluded), excluded
+
+
+def iqr_bounds(series: pd.Series, factor: float = 1.5) -> tuple[float, float]:
+    """Devuelve los límites de Tukey (Q1 − factor·IQR, Q3 + factor·IQR)."""
+    q1 = series.quantile(0.25)
+    q3 = series.quantile(0.75)
+    iqr = q3 - q1
+    return float(q1 - factor * iqr), float(q3 + factor * iqr)
+
+
+def mark_outliers(
+    df: pd.DataFrame, columns: list[str], factor: float = 1.5
+) -> pd.DataFrame:
+    """Añade una columna booleana ``is_outlier_<columna>`` por cada variable."""
+    result = df.copy()
+    for column in columns:
+        lower, upper = iqr_bounds(result[column].dropna(), factor=factor)
+        result[f"is_outlier_{column}"] = (
+            (result[column] < lower) | (result[column] > upper)
+        ).fillna(False)
+    return result
+
+
 def save_processed_data(df: pd.DataFrame, path: Path | None = None) -> Path:
     """Guarda el dataset limpio en ``data/processed/`` y devuelve la ruta."""
     target = Path(path) if path is not None else DATA_PROCESSED / PROCESSED_CSV_NAME
