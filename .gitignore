@@ -11,6 +11,17 @@ __pycache__/
 # Datos
 data/raw/*.csv
 data/processed/
+data/external/*.csv
+
+# Node (solo OpenSpec)
+node_modules/
+
+# Cobertura y build
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
 
 # Entorno
 .env

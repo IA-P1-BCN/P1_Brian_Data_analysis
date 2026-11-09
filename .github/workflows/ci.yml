@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+    types: [opened, reopened, synchronize, ready_for_review, edited]
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  pr-title:
+    name: PR title (Conventional Commits)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern='^(feat|fix|docs|spec|test|ci|chore|refactor)(\([a-z0-9-]+\))?!?: .+'
+          if [[ "$TITLE" =~ $pattern ]]; then
+            echo "OK: $TITLE"
+          else
+            echo "::error::El título del PR debe seguir Conventional Commits, p. ej. 'feat(infra): añade agentes y skills'. Recibido: '$TITLE'"
+            exit 1
+          fi
+
+  lint:
+    name: Ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Instalar ruff
+        run: pip install "ruff>=0.5,<1"
+      - name: Ejecutar ruff
+        run: ruff check .
+
+  tests:
+    name: Pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Ejecutar tests
+        run: pytest -q
+
+  specs:
+    name: OpenSpec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Instalar OpenSpec
+        run: npm ci
+      - name: Validar specs
+        run: npm run spec:validate
+
+  agent-infra:
+    name: Agent infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Comprobar agentes generados
+        run: python scripts/sync_agents.py --check
+      - name: Validar infraestructura de IA
+        run: python scripts/validate_agent_infra.py
+
+  notebooks:
+    name: Notebooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Ejecutar notebooks
+        run: |
+          shopt -s nullglob
+          notebooks=(notebooks/*.ipynb)
+          if [ ${#notebooks[@]} -eq 0 ]; then
+            echo "No hay notebooks todavía."
+            exit 0
+          fi
+          pip install -r requirements.txt
+          python -m ipykernel install --sys-prefix
+          for nb in "${notebooks[@]}"; do
+            echo "Ejecutando $nb"
+            jupyter nbconvert --to notebook --execute "$nb" \
+              --output "/tmp/$(basename "$nb")"
+          done

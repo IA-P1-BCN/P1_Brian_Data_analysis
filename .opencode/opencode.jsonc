@@ -1,0 +1,38 @@
+// Configuración de OpenCode para el proyecto EDA.
+//
+// - Reglas: AGENTS.md (raíz).
+// - Subagentes: .opencode/agents/ (GENERADOS desde .agents/agents/).
+// - Comandos: .opencode/commands/ (GENERADOS desde .agents/commands/).
+// - Skills: .agents/skills/ (las descubre OpenCode).
+//
+// Si tu versión no carga este archivo:
+//   OPENCODE_CONFIG=.opencode/opencode.jsonc opencode
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "permission": {
+    // Cada edición pide confirmación: el proyecto se revisa a mano.
+    "edit": "ask",
+    "webfetch": "ask",
+    "bash": {
+      "*": "ask",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git branch*": "allow",
+      "git show*": "allow",
+      "ls*": "allow",
+      "cat*": "allow",
+      "find*": "allow",
+      "python scripts/sync_agents.py*": "allow",
+      "python scripts/validate_agent_infra.py*": "allow",
+      "python scripts/new_change.py*": "allow",
+      "npm run spec:*": "allow",
+      "npx openspec*": "allow",
+      "ruff check*": "allow",
+      "ruff format*": "allow",
+      "pytest*": "allow",
+      "jupyter nbconvert*": "allow"
+    }
+  }
+}
