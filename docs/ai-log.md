@@ -813,3 +813,40 @@ interactivo con Plotly.
 
 - [ ] Revisar los segmentos y el gráfico interactivo.
 - [ ] Confirmar que las fechas de las olas son defendibles.
+
+## 2026-11-10 · Pipeline reproducible y CI de notebooks
+
+- **Issue / change:** #26 · `add-pipeline-release`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `data-engineer`
+
+### Objetivo
+
+Crear `scripts/run_pipeline.py` que ejecute carga, limpieza y guarde el
+dataset procesado, y verificar la CI de notebooks.
+
+### Prompts clave
+
+1. "Crea run_pipeline.py con --force y manejo de errores."
+2. "Verifica que el pipeline termina con código 0."
+
+### Qué produjo la IA
+
+- `scripts/run_pipeline.py` con `--force` y `--csv`.
+- Ejecución verificada: 20 780 filas procesadas en ~16 s.
+
+### Errores y alucinaciones
+
+- La primera versión ejecutaba `build_clean_dataset` dos veces cuando se
+  pasaba `--force`. Se simplificó.
+
+### Decisiones
+
+- **Aceptadas:** pipeline como script (no notebook); caché de descarga.
+- **Rechazadas:** incluir features en el CSV procesado (separado).
+
+### Verificación humana
+
+- [ ] Revisar `run_pipeline.py`.
+- [ ] Ejecutar `python scripts/run_pipeline.py`.
