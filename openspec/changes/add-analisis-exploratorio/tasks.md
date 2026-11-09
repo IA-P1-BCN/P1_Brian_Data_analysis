@@ -2,7 +2,7 @@
 
 ## 1. Perfilado y preguntas (N1)
 
-- [ ] 1.1 `N1-03` (#4) Construir `01_profiling.ipynb`
+- [x] 1.1 `N1-03` (#4) Construir `01_profiling.ipynb`
   - Criterio: shape, info, describe, tipos, nulos y duplicados
   - Validación: ejecutar de arriba abajo
 
