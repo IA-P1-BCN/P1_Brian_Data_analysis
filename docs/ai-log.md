@@ -219,3 +219,144 @@ generar `data/processed/covid_clean.csv` sin tocar `data/raw/`.
 - [ ] Revisar que `data/raw/` no cambió.
 - [ ] Confirmar que la auditoría coincide con el CSV procesado.
 - [ ] Ejecutar `python -m pytest tests/test_clean.py -q`.
+
+## 2026-11-06 · Mapa visual del proceso en docs/
+
+- **Issue / change:** sin issue · documentación de arquitectura
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** agente principal (documentación)
+
+### Objetivo
+
+Documentar el plano general del proyecto con diagramas Mermaid: pipeline,
+módulos, modelo de datos, ciclo SDD, flujo Git/PR, plan de 7 días y
+orquestación de agentes.
+
+### Prompts clave
+
+1. "Quiero diagramas dentro de docs para visualizar el plano general del
+   proceso."
+2. "Un solo `docs/arquitectura.md`, Mermaid en Markdown y los siete
+   diagramas."
+
+### Qué produjo la IA
+
+- `docs/arquitectura.md` con 7 diagramas Mermaid y tablas de "qué mirar".
+- Enlaces desde `README.md` y `AGENTS.md` (mapa y fuentes derivadas).
+
+### Errores y alucinaciones
+
+- Ninguno detectado. Los 7 bloques Mermaid se validaron con `mermaid.parse`
+  (mermaid 11 + jsdom) antes de cerrar la tarea.
+
+### Decisiones
+
+- **Aceptadas:** Mermaid embebido (sin imágenes ni CLI); un documento único;
+  etiquetas en español y módulos en inglés.
+- **Rechazadas:** exportar SVG/PNG → no hace falta para GitHub/VS Code;
+  añadir diagramas al notebook → el notebook es narrativa de datos.
+
+### Verificación humana
+
+- [ ] Revisar `docs/arquitectura.md` y los enlaces.
+- [ ] Previsualizar los diagramas en GitHub o VS Code.
+- [ ] Ejecutar `ruff check .`, `pytest -q` y `npm run spec:validate`.
+
+## 2026-11-06 · Separación del mapa visual en ficheros
+
+- **Issue / change:** sin issue · documentación de arquitectura
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** agente principal (documentación)
+
+### Objetivo
+
+Separar `docs/arquitectura.md` en un índice y siete documentos de detalle,
+uno por cada parte del proceso, para poder leer cada bloque sin cargar todo
+el mapa.
+
+### Prompts clave
+
+1. "Me gustan los diagramas, pero separa cada parte por un fichero para
+   tener el detalle de cada una."
+2. "Mantén `docs/arquitectura.md` como índice y mueve y amplía el resto a
+   `docs/arquitectura/`."
+
+### Qué produjo la IA
+
+- `docs/arquitectura.md` convertido en índice con diagrama de navegación y
+  tabla de documentos.
+- `docs/arquitectura/01_pipeline_datos.md` a
+  `docs/arquitectura/07_orquestacion_agentes.md`, con tablas de etapas,
+  contratos, gates, CI y subagentes.
+- `AGENTS.md` actualizado con la nueva carpeta en el árbol de `docs/`.
+
+### Errores y alucinaciones
+
+- Ninguno detectado. Los 8 bloques Mermaid (índice + 7 detalles) se validaron
+  con `mermaid.parse`.
+- Se corrigió el estado de `features.py`, `viz.py` y los notebooks: están
+  planificados, no implementados. Ahora se marcan como tal.
+
+### Decisiones
+
+- **Aceptadas:** índice en `docs/arquitectura.md`; detalle en
+  `docs/arquitectura/`; `snake_case` con prefijo numérico.
+- **Rechazadas:** mover el índice a `docs/arquitectura/README.md` → rompía
+  los enlaces de README y AGENTS; duplicar cada diagrama en índice y detalle.
+
+### Verificación humana
+
+- [ ] Revisar los 7 documentos y sus enlaces relativos.
+- [ ] Previsualizar los diagramas en GitHub o VS Code.
+- [ ] Ejecutar `ruff check .`, `pytest -q` y `npm run spec:validate`.
+
+## 2026-11-06 · Guía de lectura para empezar el EDA
+
+- **Issue / change:** sin issue · documentación de arquitectura
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** agente principal (documentación)
+
+### Objetivo
+
+Añadir una guía de entrada para alguien que ya programa pero es nuevo en EDA:
+glosario, leyenda de los diagramas, recorrido de un dato y recorrido de una
+tarea.
+
+### Prompts clave
+
+1. "¿Con esos diagramas se puede entender el flujo del proyecto? Es un
+   proyecto nuevo que es para aprender."
+2. "Guía + glosario + dos trazas, para alguien que sabe programar pero es
+   nuevo en EDA."
+
+### Qué produjo la IA
+
+- `docs/arquitectura/00_guia_lectura.md` con orden de lectura, glosario,
+  leyenda, dos diagramas de secuencia y un primer ejercicio.
+- `docs/arquitectura.md` actualizado con la guía en el diagrama de navegación
+  y en la tabla de documentos.
+- Línea "En una frase" y enlace a la guía en los 7 documentos de detalle.
+- `AGENTS.md` actualizado con el nuevo documento en el árbol de `docs/`.
+
+### Errores y alucinaciones
+
+- Ninguno detectado. Los 10 bloques Mermaid (índice + guía + 7 detalles) se
+  validaron con `mermaid.parse`.
+- El ejercicio usa `shape` y la auditoría real, no cifras inventadas.
+
+### Decisiones
+
+- **Aceptadas:** una sola guía de entrada; glosario agrupado por datos,
+  transformación y proceso; dos secuencias (dato y tarea); enlace desde cada
+  detalle.
+- **Rechazadas:** explicar sintaxis de Python → el público ya programa;
+  añadir ejercicios a los 7 documentos → se deja para una iteración posterior.
+
+### Verificación humana
+
+- [ ] Leer `docs/arquitectura/00_guia_lectura.md` de arriba abajo.
+- [ ] Comprobar que el glosario cubre las dudas reales.
+- [ ] Ejecutar `ruff check .`, `pytest -q` y `npm run spec:validate`.

@@ -22,6 +22,7 @@ cuando Esencial, Medio y Avanzado están cerrados.
 
 - Enunciado original: `README.md`
 - Contexto y plan: `docs/contexto_proyecto_eda.md`
+- Mapa visual (derivado): `docs/arquitectura.md`
 - Especificaciones: `openspec/`
 - Tablero: GitHub Project del repositorio
 - Milestones: `N1 · Esencial`, `N2 · Medio`, `N3 · Avanzado`
@@ -33,6 +34,10 @@ cuando Esencial, Medio y Avanzado están cerrados.
 3. `openspec/changes/<change>/`: propuesta, diseño y tareas en curso.
 4. Issues y milestones de GitHub: qué se está ejecutando y en qué nivel.
 5. `docs/contexto_proyecto_eda.md` y `README.md`: contexto y enunciado.
+
+`docs/arquitectura.md` (índice) y `docs/arquitectura/` (detalle) son
+documentación visual **derivada** de las fuentes anteriores: si hay
+contradicción, mandan los puntos 1–5.
 
 Si una spec y un issue se contradicen, **manda la spec** y se avisa en el
 issue. Si el código y la spec se contradicen, manda la spec: se arregla el
@@ -73,7 +78,10 @@ código o se actualiza la spec, nunca se ignora.
 │   └── validate_agent_infra.py
 ├── docs/
 │   ├── ai-log.md              bitácora de IA (entregable)
-│   └── contexto_proyecto_eda.md
+│   ├── arquitectura.md        índice del mapa visual (Mermaid)
+│   ├── arquitectura/          guía + detalle por parte (8 documentos)
+│   ├── contexto_proyecto_eda.md
+│   └── data_dictionary.md     diccionario de las 56 columnas
 ├── package.json               solo OpenSpec (Node)
 ├── pyproject.toml             ruff + pytest
 └── requirements.txt           dependencias Python

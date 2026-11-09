@@ -16,6 +16,13 @@ Pueden usar el dataset de su preferencia (ver [qué debe cumplir](#-qué-dataset
 
 > Cuéntennos la historia que leyeron en los datos :)
 
+## 🗺️ Arquitectura y proceso
+
+El plano general del proyecto está en **[`docs/arquitectura.md`](docs/arquitectura.md)**:
+pipeline de datos, mapa de módulos, modelo de datos, ciclo SDD con sus gates,
+flujo Git/PR, plan de 7 días y orquestación de agentes. Los diagramas están
+hechos con Mermaid y se renderizan directamente en GitHub y VS Code.
+
 ## 🛠️ Requisitos Técnicos
 
 1. Python 3 y Jupyter Notebook (en VS Code o similar)
