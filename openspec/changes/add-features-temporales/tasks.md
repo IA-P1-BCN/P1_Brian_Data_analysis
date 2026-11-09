@@ -23,11 +23,11 @@
 
 ## 3. Tendencias y segmentos (N3)
 
-- [ ] 3.1 `N3-04` (#23) Añadir media móvil de 7 días y gráfico logarítmico
+- [x] 3.1 `N3-04` (#23) Añadir media móvil de 7 días y gráfico logarítmico
   - Criterio: serie original + suavizada + lectura
   - Validación: figura en `reports/figures/`
 
-- [ ] 3.2 `N3-05` (#24) Segmentar por región/estado y por olas
+- [x] 3.2 `N3-05` (#24) Segmentar por región/estado y por olas
   - Criterio: definición de región y de olas documentada
   - Validación: tabla y figura por segmento
 

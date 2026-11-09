@@ -13,7 +13,7 @@
 
 ## 2. Visualización interactiva (N3)
 
-- [ ] 2.1 `N3-06` (#25) Añadir un gráfico Plotly que responda a una pregunta
+- [x] 2.1 `N3-06` (#25) Añadir un gráfico Plotly que responda a una pregunta
   - Criterio: zoom, consulta de valores y filtro por estado o periodo
   - Validación: se abre en el notebook y en el HTML exportado
 
