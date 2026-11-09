@@ -6,6 +6,7 @@ matplotlib>=3.8,<4
 seaborn>=0.13,<1
 plotly>=5.20,<7
 jupyter>=1.0,<2
+ipykernel>=7.0,<8
 nbconvert>=7.16,<8
 nbstripout>=0.7,<1
 pytest>=8.0,<9

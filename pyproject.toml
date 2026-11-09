@@ -7,7 +7,7 @@ requires-python = ">=3.12"
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-exclude = [".venv", "node_modules", "data", ".agents/skills"]
+exclude = [".venv", "node_modules", "data", "notebooks", ".agents/skills"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM"]

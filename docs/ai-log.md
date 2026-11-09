@@ -360,3 +360,49 @@ tarea.
 - [ ] Leer `docs/arquitectura/00_guia_lectura.md` de arriba abajo.
 - [ ] Comprobar que el glosario cubre las dudas reales.
 - [ ] Ejecutar `ruff check .`, `pytest -q` y `npm run spec:validate`.
+
+## 2026-11-09 · Notebook de perfilado del dataset
+
+- **Issue / change:** #4 · `add-analisis-exploratorio`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `eda-analyst`
+
+### Objetivo
+
+Construir `01_profiling.ipynb` con perfilado crudo vs limpio, nulos,
+duplicados, incrementos negativos y auditoría, sin duplicar lógica.
+
+### Prompts clave
+
+1. "Genera el notebook de perfilado con nbformat, ejecutable top-down."
+2. "Incluye la comparativa antes/después usando audit_cleaning()."
+
+### Qué produjo la IA
+
+- `notebooks/01_profiling.ipynb` (22 celdas, 0 outputs versionados).
+- Figura de las 15 columnas con más nulos.
+- Verificación con `nbconvert --execute` en 125 KB de salida.
+- `ipykernel` añadido a `requirements.txt` y registrado en la CI.
+
+### Errores y alucinaciones
+
+- El script de generación evaluaba `.format(audit=...)` en tiempo de
+  generación, donde `audit` no existía. Se calculó antes con
+  `build_clean_dataset()`.
+- Faltaba `ipykernel` en el entorno y en CI; la ejecución del notebook
+  fallaba con `NoSuchKernel`. Se añadió a `requirements.txt` y un paso
+  `python -m ipykernel install --sys-prefix` en la CI.
+- El notebook se guardó inicialmente con outputs; se limpió con `nbstripout`.
+
+### Decisiones
+
+- **Aceptadas:** perfilado sobre crudo y limpio en el mismo notebook;
+  figura única de nulos; conclusión con cifras reales.
+- **Rechazadas:** perfilar solo el crudo (dejaría la limpieza sin evidencia).
+
+### Verificación humana
+
+- [ ] Revisar las 22 celdas y la lectura de cada bloque.
+- [ ] Confirmar que las cifras coinciden con `docs/data_dictionary.md`.
+- [ ] Ejecutar `jupyter nbconvert --execute notebooks/01_profiling.ipynb`.
