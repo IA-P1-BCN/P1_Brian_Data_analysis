@@ -6,7 +6,7 @@
   - Criterio: shape, info, describe, tipos, nulos y duplicados
   - Validación: ejecutar de arriba abajo
 
-- [ ] 1.2 `N1-05` (#6) Definir 3 preguntas de negocio con hipótesis
+- [x] 1.2 `N1-05` (#6) Definir 3 preguntas de negocio con hipótesis
   - Criterio: cada pregunta tiene métrica, periodo y criterio de respuesta
   - Validación: revisión en el notebook
 

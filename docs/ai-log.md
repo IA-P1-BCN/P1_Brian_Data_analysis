@@ -406,3 +406,44 @@ duplicados, incrementos negativos y auditoría, sin duplicar lógica.
 - [ ] Revisar las 22 celdas y la lectura de cada bloque.
 - [ ] Confirmar que las cifras coinciden con `docs/data_dictionary.md`.
 - [ ] Ejecutar `jupyter nbconvert --execute notebooks/01_profiling.ipynb`.
+
+## 2026-11-09 · Notebook narrativo v0: preguntas e hipótesis
+
+- **Issue / change:** #6 · `add-analisis-exploratorio`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `eda-analyst`
+
+### Objetivo
+
+Crear `02_eda.ipynb` con contexto, 3 preguntas de negocio, hipótesis,
+métricas, periodo, criterio de respuesta y limitaciones, antes de cualquier
+análisis.
+
+### Prompts clave
+
+1. "Crea el esqueleto de 02_eda.ipynb con las 3 preguntas propuestas."
+2. "Las hipótesis deben escribirse antes de mirar los resultados."
+
+### Qué produjo la IA
+
+- `notebooks/02_eda.ipynb` con 10 secciones, carga desde `src.eda` y perfil
+  rápido.
+- 3 preguntas con hipótesis, métrica, periodo, criterio y limitación.
+- Verificación con `nbconvert --execute` (13 946 bytes).
+
+### Errores y alucinaciones
+
+- Ninguno significativo. Se eliminó el import no usado en la celda de
+  configuración.
+
+### Decisiones
+
+- **Aceptadas:** preguntas respondibles con los datos disponibles; se definen
+  las métricas derivadas (positivity, death_rate) para N2.
+- **Rechazadas:** añadir análisis en la misma PR (van en N1-06/N1-07).
+
+### Verificación humana
+
+- [ ] Revisar que las hipótesis son defendibles y no sesgadas.
+- [ ] Confirmar que las 3 preguntas cubren el nivel Esencial.
