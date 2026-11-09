@@ -729,3 +729,49 @@ Redactar `reports/informe.md` (1–2 páginas, audiencia CEO) y actualizar el
 
 - [ ] Revisar el informe y las cifras.
 - [ ] Confirmar que el README permite reproducir el proyecto.
+
+## 2026-11-10 · Población, ratios por 100k, negativos y auditoría
+
+- **Issue / change:** #20, #21, #22 · `add-features-temporales`,
+  `add-limpieza-calidad`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `data-engineer` + `eda-analyst`
+
+### Objetivo
+
+Integrar la población por estado, calcular ratios por 100k, detectar y
+tratar incrementos negativos y generar la auditoría completa.
+
+### Prompts clave
+
+1. "Crea data/external/population.csv con población por estado y territories."
+2. "Añade merge_population con validación estricta y add_per_capita."
+3. "Implementa clean_advanced con negativos a NaN y outliers marcados."
+
+### Qué produjo la IA
+
+- `data/external/population.csv` (56 estados/territorios) + README de fuente.
+- `src/eda/clean.py`: `count_negative_increments`, `apply_negative_strategy`,
+  `clean_advanced`.
+- `notebooks/02_eda.ipynb`: sección 6.3 (negativos/auditoría) y 6.4 (ratios
+  por 100k) con figura.
+- Verificación con `nbconvert --execute` (1 114 KB).
+
+### Errores y alucinaciones
+
+- El CSV de población de Plotly incluía PR duplicado; se eliminó y se usó
+  la cifra del Censo 2020.
+- `population.csv` fue creado con 57 filas; se corrigió a 56.
+
+### Decisiones
+
+- **Aceptadas:** población de 2014 (estados) y 2020 (territorios), con
+  advertencia en la fuente y en el informe.
+- **Rechazadas:** buscar población exacta de 2020 por API (no disponible
+  sin clave).
+
+### Verificación humana
+
+- [ ] Revisar `population.csv` y su README.
+- [ ] Confirmar que los ratios por 100k son coherentes.
