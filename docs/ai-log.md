@@ -646,3 +646,45 @@ de 7 días, merge de población validado y ratios por 100k.
 
 - [ ] Revisar `features.py` y los tests.
 - [ ] Confirmar que los ratios no son `inf`.
+
+## 2026-11-10 · Agregados, correlación y tendencias avanzadas
+
+- **Issue / change:** #13, #15, #16 · `add-analisis-exploratorio`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `eda-analyst`
+
+### Objetivo
+
+Añadir agregados por estado, matriz de correlación con heatmap y tendencias
+por estado en escala lineal y logarítmica.
+
+### Prompts clave
+
+1. "Inserta agregados top 10, heatmap de correlación y tendencia top 5 en
+   escala log."
+2. "Añade una subsección de features derivadas (positividad, mortalidad)."
+
+### Qué produjo la IA
+
+- 4 subsecciones nuevas (7.4, 7.5, 8.4, 9.2) y 4 figuras.
+- Verificación con `nbconvert --execute` (1 075 KB).
+
+### Errores y alucinaciones
+
+- `death_rate` salió como `object` por usar `pd.NA` en el denominador; se
+  cambió a `float("nan")`.
+- El heatmap falló porque `ultimo` no tenía `positivity`/`death_rate`; se
+  recalculan en la celda.
+
+### Decisiones
+
+- **Aceptadas:** escala log para comparar velocidades de crecimiento;
+  correlación reportada con advertencia.
+- **Rechazadas:** incluir el heatmap completo de 56 columnas (solo las
+  relevantes).
+
+### Verificación humana
+
+- [ ] Revisar las figuras y las lecturas.
+- [ ] Confirmar que la escala log no oculta diferencias absolutas.

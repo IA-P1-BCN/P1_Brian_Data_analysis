@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 def add_positivity(df: pd.DataFrame) -> pd.DataFrame:
     """Añade ``positivity = positive / totalTestResults`` (NaN si denom. 0)."""
     result = df.copy()
-    denominator = result["totalTestResults"].replace(0, pd.NA)
+    denominator = result["totalTestResults"].replace(0, float("nan"))
     result["positivity"] = result["positive"] / denominator
     return result
 
@@ -30,7 +30,7 @@ def add_positivity(df: pd.DataFrame) -> pd.DataFrame:
 def add_death_rate(df: pd.DataFrame) -> pd.DataFrame:
     """Añade ``death_rate = death / positive`` (NaN si denom. 0)."""
     result = df.copy()
-    denominator = result["positive"].replace(0, pd.NA)
+    denominator = result["positive"].replace(0, float("nan"))
     result["death_rate"] = result["death"] / denominator
     return result
 
@@ -99,7 +99,7 @@ def add_per_capita(df: pd.DataFrame) -> pd.DataFrame:
         raise ValueError("Falta la columna 'population': ejecuta merge_population primero")
 
     result = df.copy()
-    population = result["population"].replace(0, pd.NA)
+    population = result["population"].replace(0, float("nan"))
     result["positive_per_100k"] = result["positive"] / population * 100_000
     result["death_per_100k"] = result["death"] / population * 100_000
     if "totalTestResults" in result.columns:

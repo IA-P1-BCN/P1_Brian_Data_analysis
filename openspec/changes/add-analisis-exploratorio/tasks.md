@@ -26,15 +26,15 @@
 
 ## 3. Análisis avanzado (N2)
 
-- [ ] 3.1 `N2-04` (#13) Agregar al menos una métrica por estado
+- [x] 3.1 `N2-04` (#13) Agregar al menos una métrica por estado
   - Criterio: tabla ordenada con número de observaciones
   - Validación: revisión en el notebook
 
-- [ ] 3.2 `N2-06` (#15) Añadir matriz de correlación y heatmap
+- [x] 3.2 `N2-06` (#15) Añadir matriz de correlación y heatmap
   - Criterio: coeficientes comentados y advertencia de causalidad
   - Validación: figura en `reports/figures/`
 
-- [ ] 3.3 `N2-07` (#16) Añadir series temporales con media móvil de 7 días
+- [x] 3.3 `N2-07` (#16) Añadir series temporales con media móvil de 7 días
   - Criterio: serie original + media móvil + lectura
   - Validación: figura en `reports/figures/`
 
