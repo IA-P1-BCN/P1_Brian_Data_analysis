@@ -850,3 +850,40 @@ dataset procesado, y verificar la CI de notebooks.
 
 - [ ] Revisar `run_pipeline.py`.
 - [ ] Ejecutar `python scripts/run_pipeline.py`.
+
+## 2026-11-10 · QA final y release v1.0.0
+
+- **Issue / change:** #27 · `add-pipeline-release`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** agente principal (QA y release)
+
+### Objetivo
+
+Verificación final del proyecto y preparación del release `v1.0.0`.
+
+### Prompts clave
+
+1. "Ejecuta /verify y prepara el release."
+2. "Crea el PR develop → main y el tag v1.0.0."
+
+### Qué produjo la IA
+
+- `/verify` en verde: `ruff`, `pytest` (47 tests), notebooks, OpenSpec y
+  agentes.
+- Pipeline reproducible verificado.
+
+### Errores y alucinaciones
+
+- `ruff format` pendiente en `clean.py` y `features.py`; se corrigió antes
+  del release.
+
+### Decisiones
+
+- **Aceptadas:** release desde `main` con tag `v1.0.0`.
+- **Rechazadas:** incluir dashboard Streamlit (nivel Experto, opcional).
+
+### Verificación humana
+
+- [ ] Revisar el informe final.
+- [ ] Confirmar el tag y la release en GitHub.

@@ -59,15 +59,17 @@ def add_base_features(df: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
-def merge_population(
-    df: pd.DataFrame, population_path: Path | None = None
-) -> pd.DataFrame:
+def merge_population(df: pd.DataFrame, population_path: Path | None = None) -> pd.DataFrame:
     """Integra la población por estado con validación estricta.
 
     Lanza ``ValueError`` si falta algún estado o si el merge cambia el número
     de filas.
     """
-    path = Path(population_path) if population_path is not None else DATA_EXTERNAL / POPULATION_CSV_NAME
+    path = (
+        Path(population_path)
+        if population_path is not None
+        else DATA_EXTERNAL / POPULATION_CSV_NAME
+    )
     if not path.exists():
         raise FileNotFoundError(f"No existe la tabla de población: {path}")
 
@@ -78,15 +80,15 @@ def merge_population(
     before_rows = len(df)
     before_states = set(df["state"].dropna().unique())
 
-    merged = df.merge(population[["state", "population"]], on="state", how="left", validate="many_to_one")
+    merged = df.merge(
+        population[["state", "population"]], on="state", how="left", validate="many_to_one"
+    )
 
     missing = before_states - set(population["state"].dropna().unique())
     if missing:
         raise ValueError(f"Faltan estados en population.csv: {sorted(missing)}")
     if len(merged) != before_rows:
-        raise ValueError(
-            f"El merge cambió el número de filas: {before_rows} -> {len(merged)}"
-        )
+        raise ValueError(f"El merge cambió el número de filas: {before_rows} -> {len(merged)}")
     if merged["population"].isna().any():
         raise ValueError("Hay estados sin población tras el merge")
 

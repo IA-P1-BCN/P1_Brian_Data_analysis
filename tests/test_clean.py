@@ -171,7 +171,6 @@ def test_fixture_has_expected_states(estado: str) -> None:
     assert estado in set(df["state"])
 
 
-
 def test_drop_high_null_columns_excludes_strictly_above() -> None:
     df = pd.DataFrame(
         {
@@ -209,9 +208,7 @@ def test_mark_outliers_adds_boolean_column() -> None:
 
 
 def test_count_negative_increments() -> None:
-    df = pd.DataFrame(
-        {"positiveIncrease": [1, -2, 3], "deathIncrease": [-1, -2, -3]}
-    )
+    df = pd.DataFrame({"positiveIncrease": [1, -2, 3], "deathIncrease": [-1, -2, -3]})
 
     result = count_negative_increments(df)
 

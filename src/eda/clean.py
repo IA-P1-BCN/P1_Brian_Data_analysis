@@ -85,9 +85,7 @@ def iqr_bounds(series: pd.Series, factor: float = 1.5) -> tuple[float, float]:
     return float(q1 - factor * iqr), float(q3 + factor * iqr)
 
 
-def mark_outliers(
-    df: pd.DataFrame, columns: list[str], factor: float = 1.5
-) -> pd.DataFrame:
+def mark_outliers(df: pd.DataFrame, columns: list[str], factor: float = 1.5) -> pd.DataFrame:
     """Añade una columna booleana ``is_outlier_<columna>`` por cada variable."""
     result = df.copy()
     for column in columns:
@@ -141,15 +139,11 @@ INCREMENT_COLUMNS: tuple[str, ...] = (
 def count_negative_increments(df: pd.DataFrame) -> dict[str, int]:
     """Cuenta los valores negativos en las columnas de incremento diario."""
     return {
-        column: int((df[column] < 0).sum())
-        for column in INCREMENT_COLUMNS
-        if column in df.columns
+        column: int((df[column] < 0).sum()) for column in INCREMENT_COLUMNS if column in df.columns
     }
 
 
-def apply_negative_strategy(
-    df: pd.DataFrame, strategy: str = "nan"
-) -> pd.DataFrame:
+def apply_negative_strategy(df: pd.DataFrame, strategy: str = "nan") -> pd.DataFrame:
     """Aplica la estrategia elegida a los incrementos negativos.
 
     ``strategy`` puede ser ``"nan"`` (convierte a NaN), ``"zero"`` (a 0) o
