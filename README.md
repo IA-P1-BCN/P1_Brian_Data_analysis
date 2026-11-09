@@ -23,6 +23,86 @@ pipeline de datos, mapa de módulos, modelo de datos, ciclo SDD con sus gates,
 flujo Git/PR, plan de 7 días y orquestación de agentes. Los diagramas están
 hechos con Mermaid y se renderizan directamente en GitHub y VS Code.
 
+## 🚀 Cómo ejecutar este proyecto
+
+### Datos
+
+El dataset es el **COVID Tracking Project · States Daily** (EE. UU.), 20 780
+filas y 56 columnas, del 13 de enero de 2020 al 7 de marzo de 2021. Se
+descarga automáticamente la primera vez que se ejecuta `load_covid_data()` y se
+guarda en `data/raw/` (ignorado por git). La documentación de las columnas está
+en [`docs/data_dictionary.md`](docs/data_dictionary.md).
+
+### Instalación
+
+```bash
+python -m venv .venv
+source .venv/bin/activate          # en Windows: .venv\\Scripts\\activate
+pip install -r requirements.txt
+```
+
+Para validar las especificaciones OpenSpec también se necesita Node 20+:
+
+```bash
+npm install
+```
+
+### Ejecución
+
+```bash
+# Notebooks
+jupyter lab
+# o ejecutarlos de arriba abajo sin abrir la UI:
+jupyter nbconvert --to notebook --execute notebooks/01_profiling.ipynb --output /tmp/01.ipynb
+jupyter nbconvert --to notebook --execute notebooks/02_eda.ipynb --output /tmp/02.ipynb
+
+# Calidad
+ruff check .
+pytest -q
+npm run spec:validate
+
+# Infraestructura de agentes
+python scripts/sync_agents.py --check
+python scripts/validate_agent_infra.py
+```
+
+### Estructura del repositorio
+
+```text
+data/        raw (inmutable) · processed · external
+notebooks/   01_profiling.ipynb · 02_eda.ipynb
+src/eda/     load.py · clean.py · features.py · viz.py
+reports/     figures/ · informe.md
+tests/       pytest
+openspec/    config.yaml · changes/ (7 épicas) · specs/
+.agents/     agentes, comandos y skills (fuente)
+.opencode/   configuración generada para OpenCode
+docs/        contexto, diccionario, arquitectura, bitácora de IA
+```
+
+### Resultados principales
+
+- 28,8 millones de casos y 515 mil muertes registrados (2020-01-13 → 2021-03-07).
+- Los 5 estados con más casos (CA, TX, FL, NY, IL) concentran el 38 % de los
+  casos y de las muertes.
+- Más tests → más positivos detectados (correlación 0,91), pero no implica
+  más contagio.
+- La hipótesis "mayor positividad → mayor mortalidad" no se sostiene
+  (correlación -0,05).
+- El reporting cae en fin de semana; la media móvil de 7 días es la lectura
+  correcta.
+
+Ver el detalle en [`reports/informe.md`](reports/informe.md).
+
+### Limitaciones
+
+- Casos reportados, no reales; subregistro variable por estado.
+- `totalTestResults` cambió de definición a lo largo del periodo.
+- Efecto fin de semana en el reporting.
+- Comparabilidad entre estados limitada sin normalizar por población.
+- `dataQualityGrade` está vacía al 100 % en esta copia.
+- No se puede inferir causalidad de una serie temporal observacional.
+
 ## 🛠️ Requisitos Técnicos
 
 1. Python 3 y Jupyter Notebook (en VS Code o similar)
@@ -119,6 +199,13 @@ Cada nivel incluye todo lo del anterior. Pueden elegir hasta dónde llegar, pero
 - Informe de calidad de datos: qué faltaba, qué se corrigió, qué quedó pendiente y por qué
 - Presentación del hallazgo principal en 5 minutos, con storytelling para público no técnico
 - Publicación del dashboard o del informe en un enlace accesible
+
+## 👤 Autoría y contexto académico
+
+Proyecto de la asignatura **M2 · Data Analytics & Machine Learning** (Factoría
+F5), nivel objetivo **Avanzado**. Análisis exploratorio reproducible del COVID
+Tracking Project, con capa de especificación (OpenSpec), agentes y skills de IA,
+tests y CI.
 
 ## 🌟 Competencias
 
