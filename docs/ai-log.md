@@ -563,3 +563,46 @@ respondan a las 3 preguntas.
 
 - [ ] Revisar las conclusiones y las limitaciones.
 - [ ] Confirmar que cada cifra remite a una celda anterior.
+
+## 2026-11-09 · Limpieza avanzada: nulos, outliers y decisiones
+
+- **Issue / change:** #10, #11, #12 · `add-limpieza-calidad`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `data-engineer` + `eda-analyst`
+
+### Objetivo
+
+Documentar las decisiones de limpieza avanzada: tabla antes/después,
+exclusión de columnas con más del 80 % de nulos y outliers por IQR.
+
+### Prompts clave
+
+1. "Añade drop_high_null_columns, iqr_bounds y mark_outliers a clean.py con
+   tests."
+2. "Inserta la sección 6 de limpieza y calidad en 02_eda.ipynb."
+
+### Qué produjo la IA
+
+- `src/eda/clean.py`: 3 funciones nuevas + 3 tests (18 en total).
+- `notebooks/02_eda.ipynb`: sección 6 con tabla de decisiones, lista de
+  15 columnas excluidas y boxplot de outliers.
+- Verificación con `nbconvert --execute` (725 KB).
+
+### Errores y alucinaciones
+
+- Se duplicó la celda de garantía de `raw` al insertar; se eliminó la
+  segunda.
+- Los ids de celda se duplicaron al renumerar secciones; se asignaron ids
+  únicos.
+
+### Decisiones
+
+- **Aceptadas:** umbral estricto `> 0.80`; factor 1,5 para IQR; marcar
+  outliers sin borrarlos.
+- **Rechazadas:** excluir columnas con exactamente 80 % de nulos.
+
+### Verificación humana
+
+- [ ] Revisar la tabla de decisiones y los límites IQR.
+- [ ] Confirmar que las 15 columnas excluidas coinciden con el diccionario.
