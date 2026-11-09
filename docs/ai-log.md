@@ -522,3 +522,44 @@ Añadir 3 análisis bivariados con gráfico y lectura a `02_eda.ipynb`.
 
 - [ ] Revisar las figuras y las lecturas.
 - [ ] Confirmar que no hay causalidad implícita.
+
+## 2026-11-09 · Notebook narrativo v1 (conclusiones)
+
+- **Issue / change:** #9 · `add-analisis-exploratorio`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `eda-analyst`
+
+### Objetivo
+
+Cerrar `02_eda.ipynb` con tendencias, limitaciones y conclusiones que
+respondan a las 3 preguntas.
+
+### Prompts clave
+
+1. "Completa la sección 8 con serie diaria, media móvil 7d y por día de la
+   semana."
+2. "Escribe limitaciones y conclusiones con cifras trazables."
+
+### Qué produjo la IA
+
+- Secciones 8, 9 y 10 con 2 figuras nuevas (tendencia diaria y por día de
+  la semana).
+- Conclusiones que responden a las 3 preguntas con evidencia.
+- Verificación con `nbconvert --execute` (684 KB).
+
+### Errores y alucinaciones
+
+- Se generaron ids de celda duplicados al insertar en bloque; se asignaron
+  ids únicos antes de guardar.
+
+### Decisiones
+
+- **Aceptadas:** media móvil de 7 días para la tendencia; efecto fin de
+  semana documentado como artefacto de reporting.
+- **Rechazadas:** incluir el heatmap completo (va en N2-06).
+
+### Verificación humana
+
+- [ ] Revisar las conclusiones y las limitaciones.
+- [ ] Confirmar que cada cifra remite a una celda anterior.

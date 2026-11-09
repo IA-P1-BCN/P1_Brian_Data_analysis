@@ -20,7 +20,7 @@
   - Criterio: scatter o comparación por grupo, con limitación
   - Validación: figuras en `reports/figures/`
 
-- [ ] 2.3 `N1-08` (#9) Cerrar `02_eda.ipynb` como notebook narrativo v1
+- [x] 2.3 `N1-08` (#9) Cerrar `02_eda.ipynb` como notebook narrativo v1
   - Criterio: ejecuta de arriba abajo y tiene conclusiones
   - Validación: `jupyter nbconvert --execute`
 
