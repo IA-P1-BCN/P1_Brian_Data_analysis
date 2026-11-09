@@ -2,7 +2,7 @@
 
 ## 1. Features base (N2)
 
-- [ ] 1.1 `N2-05` (#14) Añadir `positivity`, `positive_per_100k` y `positive_ma7`
+- [x] 1.1 `N2-05` (#14) Añadir `positivity`, `positive_per_100k` y `positive_ma7`
   - Criterio: fórmulas documentadas y sin `inf`
   - Validación: `pytest tests/test_features.py -q`
 
