@@ -775,3 +775,41 @@ tratar incrementos negativos y generar la auditoría completa.
 
 - [ ] Revisar `population.csv` y su README.
 - [ ] Confirmar que los ratios por 100k son coherentes.
+
+## 2026-11-10 · Segmentos y gráfico interactivo Plotly
+
+- **Issue / change:** #23, #24, #25 · `add-features-temporales`,
+  `add-informe-ejecutivo`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `eda-analyst` + `viz-designer`
+
+### Objetivo
+
+Añadir segmentos por región y por olas, escala logarítmica y un gráfico
+interactivo con Plotly.
+
+### Prompts clave
+
+1. "Define regiones y olas con fechas explícitas y agrega por segmento."
+2. "Añade un Plotly interactivo de tendencia por estado y exporta a HTML."
+
+### Qué produjo la IA
+
+- Secciones 9.3 y 9.4 con 2 figuras estáticas y 1 HTML interactivo.
+- `reports/figures/plotly_tendencia.html`.
+- Verificación con `nbconvert --execute` (1 301 KB).
+
+### Errores y alucinaciones
+
+- Ninguno significativo.
+
+### Decisiones
+
+- **Aceptadas:** olas con fechas explícitas; Plotly solo para una pregunta.
+- **Rechazadas:** dashboard Streamlit (nivel Experto, opcional).
+
+### Verificación humana
+
+- [ ] Revisar los segmentos y el gráfico interactivo.
+- [ ] Confirmar que las fechas de las olas son defendibles.
