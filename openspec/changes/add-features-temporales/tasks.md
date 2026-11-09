@@ -8,15 +8,15 @@
 
 ## 2. Población y ratios (N3)
 
-- [ ] 2.1 `N3-02` (#21) Crear `data/external/population.csv` y documentar la fuente
+- [x] 2.1 `N3-02` (#21) Crear `data/external/population.csv` y documentar la fuente
   - Criterio: una fila por estado y población positiva
   - Validación: revisión manual
 
-- [ ] 2.2 `N3-02` (#21) Implementar `merge_population()` con validación estricta
+- [x] 2.2 `N3-02` (#21) Implementar `merge_population()` con validación estricta
   - Criterio: no se pierden estados ni se duplican filas
   - Validación: tests de merge correcto y estado ausente
 
-- [ ] 2.3 `N3-01` (#20) Calcular `positive_per_100k`, `death_per_100k` y
+- [x] 2.3 `N3-01` (#20) Calcular `positive_per_100k`, `death_per_100k` y
   `tests_per_100k`
   - Criterio: comparaciones entre estados normalizadas
   - Validación: test de ratio y figura comparativa

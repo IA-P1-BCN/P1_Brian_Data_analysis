@@ -126,10 +126,10 @@ def test_add_per_capita_requires_population() -> None:
         add_per_capita(df)
 
 
-def test_add_all_features_without_population_keeps_base() -> None:
+def test_add_all_features_without_population_keeps_base(tmp_path: Path) -> None:
     df = pd.read_csv(FIXTURE)
 
-    result = add_all_features(df)
+    result = add_all_features(df, population_path=tmp_path / "no_existe.csv")
 
     assert {"positivity", "death_rate", "positiveIncrease_ma7"}.issubset(result.columns)
     assert "population" not in result.columns

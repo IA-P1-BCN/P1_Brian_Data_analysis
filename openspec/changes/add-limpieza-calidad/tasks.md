@@ -31,11 +31,11 @@
 
 ## 3. Auditoría (N3)
 
-- [ ] 3.1 `N3-03` (#22) Detectar y tratar incrementos negativos
+- [x] 3.1 `N3-03` (#22) Detectar y tratar incrementos negativos
   - Criterio: recuento por columna y por estado; decisión documentada
   - Validación: test con un incremento negativo
 
-- [ ] 3.2 `N3-03` (#22) Generar la auditoría de calidad
+- [x] 3.2 `N3-03` (#22) Generar la auditoría de calidad
   - Criterio: filas iniciales/finales, columnas eliminadas, duplicados,
     fechas inválidas y negativos
   - Validación: tabla reproducible en el notebook

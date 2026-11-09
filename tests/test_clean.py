@@ -8,9 +8,12 @@ import pandas as pd
 import pytest
 
 from src.eda.clean import (
+    apply_negative_strategy,
     audit_cleaning,
     build_clean_dataset,
+    clean_advanced,
     clean_covid_data,
+    count_negative_increments,
     drop_high_null_columns,
     drop_invalid_dates,
     iqr_bounds,
@@ -203,3 +206,68 @@ def test_mark_outliers_adds_boolean_column() -> None:
     assert result["is_outlier_x"].dtype == bool
     assert bool(result.loc[result["x"] == 100, "is_outlier_x"].iloc[0]) is True
     assert bool(result.loc[result["x"] == 3, "is_outlier_x"].iloc[0]) is False
+
+
+def test_count_negative_increments() -> None:
+    df = pd.DataFrame(
+        {"positiveIncrease": [1, -2, 3], "deathIncrease": [-1, -2, -3]}
+    )
+
+    result = count_negative_increments(df)
+
+    assert result["positiveIncrease"] == 1
+    assert result["deathIncrease"] == 3
+
+
+def test_apply_negative_strategy_nan() -> None:
+    df = pd.DataFrame({"positiveIncrease": [1, -2, 3]})
+
+    result = apply_negative_strategy(df, strategy="nan")
+
+    assert pd.isna(result.loc[1, "positiveIncrease"])
+    assert result.loc[0, "positiveIncrease"] == 1
+
+
+def test_apply_negative_strategy_zero() -> None:
+    df = pd.DataFrame({"positiveIncrease": [1, -2, 3]})
+
+    result = apply_negative_strategy(df, strategy="zero")
+
+    assert result.loc[1, "positiveIncrease"] == 0
+
+
+def test_apply_negative_strategy_keep() -> None:
+    df = pd.DataFrame({"positiveIncrease": [1, -2, 3]})
+
+    result = apply_negative_strategy(df, strategy="keep")
+
+    assert result.loc[1, "positiveIncrease"] == -2
+
+
+def test_apply_negative_strategy_invalid() -> None:
+    df = pd.DataFrame({"positiveIncrease": [1, -2, 3]})
+
+    with pytest.raises(ValueError):
+        apply_negative_strategy(df, strategy="foo")
+
+
+def test_clean_advanced_drops_and_marks() -> None:
+    df = pd.DataFrame(
+        {
+            "state": ["AK", "AK", "AL", "AL"],
+            "date": [20200501, 20200502, 20200501, 20200502],
+            "positive": [10, 12, 20, 22],
+            "death": [1, 1, 2, 2],
+            "totalTestResults": [100, 120, 200, 220],
+            "positiveIncrease": [2, -1, 5, 3],
+            "deathIncrease": [0, 0, 1, 0],
+            "high_null": [None, None, None, None],
+        }
+    )
+
+    clean, report = clean_advanced(df)
+
+    assert "high_null" not in clean.columns
+    assert "is_outlier_positive" in clean.columns
+    assert report["negative_increments"]["positiveIncrease"] == 1
+    assert pd.isna(clean.loc[1, "positiveIncrease"])

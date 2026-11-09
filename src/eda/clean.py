@@ -98,6 +98,28 @@ def mark_outliers(
     return result
 
 
+def clean_advanced(df: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, object]]:
+    """Aplica la limpieza avanzada y devuelve ``(df, auditoría)``.
+
+    Excluye columnas con más del 80 % de nulos, convierte los incrementos
+    negativos a ``NaN`` y marca outliers por IQR. No borra filas.
+    """
+    excluded: list[str]
+    df, excluded = drop_high_null_columns(df, threshold=0.80)
+    neg_counts = count_negative_increments(df)
+    df = apply_negative_strategy(df, strategy="nan")
+    df = mark_outliers(df, columns=["positive", "death", "positiveIncrease", "deathIncrease"])
+    report = {
+        "columns_dropped": excluded,
+        "negative_increments": neg_counts,
+        "outliers": {
+            col: int(df[f"is_outlier_{col}"].sum())
+            for col in ["positive", "death", "positiveIncrease", "deathIncrease"]
+        },
+    }
+    return df, report
+
+
 def save_processed_data(df: pd.DataFrame, path: Path | None = None) -> Path:
     """Guarda el dataset limpio en ``data/processed/`` y devuelve la ruta."""
     target = Path(path) if path is not None else DATA_PROCESSED / PROCESSED_CSV_NAME
@@ -107,10 +129,56 @@ def save_processed_data(df: pd.DataFrame, path: Path | None = None) -> Path:
     return target
 
 
-def audit_cleaning(raw: pd.DataFrame, clean: pd.DataFrame) -> dict[str, object]:
-    """Devuelve las cifras que justifican la limpieza básica."""
-    parsed = parse_date_column(raw)
+INCREMENT_COLUMNS: tuple[str, ...] = (
+    "positiveIncrease",
+    "negativeIncrease",
+    "totalTestResultsIncrease",
+    "deathIncrease",
+    "hospitalizedIncrease",
+)
+
+
+def count_negative_increments(df: pd.DataFrame) -> dict[str, int]:
+    """Cuenta los valores negativos en las columnas de incremento diario."""
     return {
+        column: int((df[column] < 0).sum())
+        for column in INCREMENT_COLUMNS
+        if column in df.columns
+    }
+
+
+def apply_negative_strategy(
+    df: pd.DataFrame, strategy: str = "nan"
+) -> pd.DataFrame:
+    """Aplica la estrategia elegida a los incrementos negativos.
+
+    ``strategy`` puede ser ``"nan"`` (convierte a NaN), ``"zero"`` (a 0) o
+    ``"keep"`` (no toca).
+    """
+    if strategy not in {"nan", "zero", "keep"}:
+        raise ValueError(f"estrategia no válida: {strategy}")
+
+    result = df.copy()
+    if strategy == "keep":
+        return result
+
+    replacement = float("nan") if strategy == "nan" else 0
+    for column in INCREMENT_COLUMNS:
+        if column in result.columns:
+            mask = result[column] < 0
+            result.loc[mask, column] = replacement
+    return result
+
+
+def audit_cleaning(
+    raw: pd.DataFrame,
+    clean: pd.DataFrame,
+    excluded_columns: list[str] | None = None,
+    negative_counts: dict[str, int] | None = None,
+) -> dict[str, object]:
+    """Devuelve las cifras que justifican la limpieza."""
+    parsed = parse_date_column(raw)
+    report: dict[str, object] = {
         "rows_in": len(raw),
         "rows_out": len(clean),
         "rows_removed": len(raw) - len(clean),
@@ -118,7 +186,12 @@ def audit_cleaning(raw: pd.DataFrame, clean: pd.DataFrame) -> dict[str, object]:
         "duplicates": int(raw.duplicated(subset=["state", "date"]).sum()),
         "date_min": clean["date"].min() if len(clean) else None,
         "date_max": clean["date"].max() if len(clean) else None,
+        "columns_dropped": excluded_columns or [],
+        "negative_increments": negative_counts
+        if negative_counts is not None
+        else count_negative_increments(raw),
     }
+    return report
 
 
 def build_clean_dataset(
