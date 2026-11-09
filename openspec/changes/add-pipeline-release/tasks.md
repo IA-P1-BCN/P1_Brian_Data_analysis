@@ -12,11 +12,11 @@
 
 ## 2. Pipeline (N3)
 
-- [ ] 2.1 `N3-07` (#26) Crear `scripts/run_pipeline.py`
+- [x] 2.1 `N3-07` (#26) Crear `scripts/run_pipeline.py`
   - Criterio: raw → processed en un comando
   - Validación: `python scripts/run_pipeline.py`
 
-- [ ] 2.2 `N3-07` (#26) Ampliar la CI con el job de notebooks
+- [x] 2.2 `N3-07` (#26) Ampliar la CI con el job de notebooks
   - Criterio: se ejecuta en PRs que tocan `notebooks/` o `src/`
   - Validación: PR de prueba con un notebook roto
 
