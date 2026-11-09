@@ -484,3 +484,41 @@ Añadir 3 análisis univariados con gráficos y lectura a `02_eda.ipynb`.
 
 - [ ] Revisar las figuras y las lecturas.
 - [ ] Confirmar que las cifras del top 10 son coherentes.
+
+## 2026-11-09 · Análisis bivariado (3 relaciones)
+
+- **Issue / change:** #8 · `add-analisis-exploratorio`
+- **Herramienta:** OpenCode
+- **Modelo:** `opencode/deepseek-v4.1-flash-free`
+- **Rol del agente:** `eda-analyst`
+
+### Objetivo
+
+Añadir 3 análisis bivariados con gráfico y lectura a `02_eda.ipynb`.
+
+### Prompts clave
+
+1. "Inserta bivariado tests vs positivos, positividad vs mortalidad y boxplot
+   por estado."
+2. "Reporta correlación con su limitación y evita causalidad."
+
+### Qué produjo la IA
+
+- 3 subsecciones (7.1, 7.2, 7.3) con scatter + regplot y boxplot.
+- 3 figuras en `reports/figures/`.
+- Verificación con `nbconvert --execute` (431 KB).
+
+### Errores y alucinaciones
+
+- Ninguno. Se reutilizó `ultimo` (último día por estado) para los scatters.
+
+### Decisiones
+
+- **Aceptadas:** escala logarítmica para tests vs positivos; correlación de
+  Pearson reportada con advertencia.
+- **Rechazadas:** incluir el heatmap completo (va en N2-06).
+
+### Verificación humana
+
+- [ ] Revisar las figuras y las lecturas.
+- [ ] Confirmar que no hay causalidad implícita.

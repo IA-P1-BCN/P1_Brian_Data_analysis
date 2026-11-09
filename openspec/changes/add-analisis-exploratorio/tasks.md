@@ -16,7 +16,7 @@
   - Criterio: distribución, centro, dispersión y lectura
   - Validación: figuras en `reports/figures/`
 
-- [ ] 2.2 `N1-07` (#8) Añadir 3 análisis bivariados con gráfico e interpretación
+- [x] 2.2 `N1-07` (#8) Añadir 3 análisis bivariados con gráfico e interpretación
   - Criterio: scatter o comparación por grupo, con limitación
   - Validación: figuras en `reports/figures/`
 
